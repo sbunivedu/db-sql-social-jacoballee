@@ -1,0 +1,28 @@
+1. 
+select name from Highschooler where ID IN 
+(select ID2 from Friend where ID1 IN 
+(select ID from Highschooler where name = 'Gabriel'));
+
+2.
+select name, grade
+from Highschooler
+where ID NOT IN
+(select ID1 from Likes UNION select ID2 from Likes);
+
+3.
+select name, grade
+from Highschooler
+where ID IN (
+select ID2 from Likes GROUP BY ID2 having COUNT(ID1) > 1);
+
+4.
+select H1.name, H1.grade, H2.name, H2.grade
+from Highschooler H1, Highschooler H2, Likes
+where (Likes.ID1 = H1.ID AND Likes.ID2 = H2.ID)
+AND H1.grade - H2.grade >= 2;
+
+8.
+select AVG(friends)
+from (select COUNT(*) AS friends
+from Friend
+GROUP BY ID1) AS count;
